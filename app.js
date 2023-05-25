@@ -1,7 +1,11 @@
 const express = require('express');
 const app = new express();
-const router = require('./src/routes/routes');
-
+const cors = require('cors');
+const {readdirSync} = require('fs');
+const morgan = require("morgan");
+const path = require("path");
+const mongoose = require("mongoose");
+require('dotenv').config({path: './.env'})
 
 // Securitey Middleware Import
 const helmet = require('helmet');
@@ -13,7 +17,9 @@ const hpp = require('hpp');
 
 
 // Securites Middleware Implements
+app.use(cors());
 app.use(helmet());
+app.use(morgan('dev'))
 app.use(xssClean());
 app.use(hpp());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,17 +32,14 @@ const apiLimiter = rateLimit({
 	max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
 	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
 });
-
 app.use(rateLimit());
 
-
-// Routing Area
-app.use("/api/v1", router);
+// routes middleware
+readdirSync("./src/routes").map(r => app.use("/api/v1", require(`./src/routes/${r}`))) 
 
 // Undifine Route Handler
 app.use('*',function(req, res){
     res.status(404).json({messages: "404 | Page Not Found"});
-})
-
+});
 
 module.exports = app;

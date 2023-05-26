@@ -1,4 +1,3 @@
-
 # Get Start with Express JS Application Boilerplate
 
 Using this Boilerplate you can get start a quick project using express JS
@@ -23,7 +22,7 @@ Install all npm packages using this command
 
 ## Step 3 :
 
-Configure the .env files and then run the application using 
+Configure the .env files and then run the application using
 
 ```bash
    $ npm start
@@ -32,3 +31,8 @@ Configure the .env files and then run the application using
 Applications will run using developer dev dependency nodemon.
 Thanks for using our boiler plate to starting your projects.
 
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`PORT`
